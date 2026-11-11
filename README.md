@@ -48,7 +48,11 @@ From the command line:
 ```
 
 The GitHub Actions workflow in `.github/workflows/android.yml` builds the APK
-and runs the unit tests on every push.
+and runs the unit tests on every push; the resulting `app-debug.apk` is uploaded
+as the `riyad-as-salihin-debug` artifact on the Actions run page.
+
+For a signed release build (keystore, AAB, Play Store checklist), see
+[`docs/PUBLISHING.md`](docs/PUBLISHING.md).
 
 > If Gradle sync complains about the SDK, create `local.properties` with
 > `sdk.dir=/path/to/Android/sdk` (Android Studio does this automatically).
@@ -68,6 +72,7 @@ content/
   books.json               book metadata (Arabic / English / Amharic titles)
   am/hadiths.json          Amharic translations keyed by hadith number
 tools/build_content.py     merges sources + translations into app assets
+docs/PUBLISHING.md         signing, release builds and store checklist
 ```
 
 The app reads JSON through `kotlinx.serialization` and keeps everything in
