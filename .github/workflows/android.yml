@@ -32,6 +32,9 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Validate bundled content
+        run: python3 tools/check_assets.py
+
       - name: Unit tests
         run: |
           set +e
