@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ሪያዱ ሳሊሂን</string>
+    <string name="app_name_amharic">ሪያዱ ሳሊሂን</string>
+    <string name="app_tagline">የጻድቃን አትክልት · በአማርኛ ትርጉም</string>
+    <string name="tab_books">መጽሐፎች</string>
+    <string name="tab_search">ፍለጋ</string>
+    <string name="tab_bookmarks">ምልክቶች</string>
+    <string name="tab_settings">ቅንብሮች</string>
+
+    <string name="search_hint">በዐረብኛ፣ በአማርኛ ወይም በእንግሊዝኛ ፈልግ…</string>
+    <string name="search_empty_prompt">ሁሉንም 1,896 ሐዲሶች ለመፈለግ ቢያንስ ሁለት ፊደሎችን ይጻፉ።</string>
+    <string name="search_no_results">“%1$s” የሚል ሐዲስ አልተገኘም።</string>
+    <string name="search_results">%1$d ውጤት(ዎች)</string>
+    <string name="searching">በመፈለግ ላይ…</string>
+
+    <string name="translation_progress_title">የአማርኛ ትርጉም</string>
+    <string name="translation_progress">ከ%2$d ሐዲሶች %1$d ተተርጉመዋል</string>
+    <string name="translation_in_progress">ትርጉሙ በመካሄድ ላይ ነው</string>
+    <string name="translation_pending">የአማርኛ ትርጉም በቅርቡ ይጨመራል</string>
+    <string name="translation_pending_hint">የዚህ ሐዲስ ዐረብኛና እንግሊዝኛ ትርጉም ይገኛል።</string>
+    <string name="translation_notice">የአማርኛ ጽሑፉ የማኅበረሰብ ረቂቅ ነው። ከታመነ የዐረብኛ ምንጭ ወይም ከዓሊም ጋር በማመሳከር ያረጋግጡ።</string>
+
+    <string name="continue_reading">ንባብን ይቀጥሉ</string>
+    <string name="continue_reading_detail">%1$s · ሐዲስ %2$d</string>
+    <string name="hadith_number">ሐዲስ %1$d</string>
+    <string name="hadiths_count">%1$d ሐዲሶች</string>
+    <string name="translated_count">%1$d በአማርኛ</string>
+    <string name="book_number">መጽሐፍ %1$d</string>
+    <string name="books_count">%1$d መጽሐፎች</string>
+    <string name="read_book">መጽሐፍ ክፈት</string>
+
+    <string name="show_english">የእንግሊዝኛ ትርጉም አሳይ</string>
+    <string name="arabic_text_size">የዐረብኛ ጽሑፍ መጠን</string>
+    <string name="amharic_text_size">የአማርኛ ጽሑፍ መጠን</string>
+    <string name="appearance">ገጽታ</string>
+    <string name="theme">ገጽታ</string>
+    <string name="theme_system">እንደ ስልኩ</string>
+    <string name="theme_light">ብርሃን</string>
+    <string name="theme_dark">ጨለማ</string>
+    <string name="app_language">የመተግበሪያ ቋንቋ</string>
+    <string name="language_system">እንደ ስልኩ</string>
+    <string name="language_english">English</string>
+    <string name="language_amharic">አማርኛ</string>
+    <string name="language_restart_hint">ቋንቋ መቀየር መተግበሪያውን እንደገና ያስጀምራል።</string>
+    <string name="reading">ንባብ</string>
+    <string name="content">ይዘት</string>
+    <string name="about">ስለ መተግበሪያው</string>
+    <string name="version">ቅጂ %1$s</string>
+    <string name="sources">ምንጮችና ክብር</string>
+    <string name="sources_body">የዐረብኛና የእንግሊዝኛ ሐዲስ ጽሑፍ፦ sunnah.com (ሪያዱ ሳሊሂን፣ የዳሩሰላም ቅደም ተከተል)፣ በክፍት “HadithsJSONFormat” የውሂብ ስብስብ በኩል። የአማርኛ ትርጉም፦ ለዚህ መተግበሪያ የተዘጋጀ። ሐዲስ የተቀደሰ ጽሑፍ ነው፤ ሁልጊዜ ከብቁ ዓሊሞች ጋር ያረጋግጡ።</string>
+    <string name="disclaimer_title">እባክዎ ያስተውሉ</string>
+    <string name="disclaimer_body">የአማርኛ ትርጉሙ ገና በመካሄድ ላይ ነው፤ የዐረብኛውን ዋና ጽሑፍ ሊተካ አይችልም። ማሻሻያዎችን በፕሮጀክቱ ሪፖዚቶሪ ያሳውቁ፤ ማኅበረሰቡ ይገምግማቸዋል።</string>
+    <string name="contribute_title">ትርጉሙን ለማጠናቀቅ ያግዙ</string>
+    <string name="contribute_body">ትርጉሞች በፕሮጀክቱ ውስጥ በcontent/am/hadiths.json ይገኛሉ። እያንዳንዱ ግቤት በሐዲስ ቁጥር ይመራል፤ ስለዚህ አዲስ ትርጉም የመተግበሪያውን ኮድ ሳይነካ መጨመርና ማረጋገጥ ይቻላል።</string>
+
+    <string name="bookmark_add">ሐዲሱን ምልክት አድርግ</string>
+    <string name="bookmark_remove">ምልክቱን አስወግድ</string>
+    <string name="bookmarks_empty_title">እስካሁን ምልክት የተደረገ የለም</string>
+    <string name="bookmarks_empty_body">ማንኛውንም ሐዲስ ላይ ያለውን የምልክት አዶ ተጭነው እዚህ ያስቀምጡት።</string>
+    <string name="copy">ቅዳ</string>
+    <string name="share">አጋራ</string>
+    <string name="copied">ሐዲሱ ተቀድቷል</string>
+    <string name="back">ተመለስ</string>
+    <string name="retry">እንደገና ሞክር</string>
+    <string name="loading">በመጫን ላይ…</string>
+    <string name="error_loading">ይዘቱ ሊጫን አልቻለም።</string>
+    <string name="hadith_of_book">%1$s · ሐዲስ %2$d</string>
+</resources>

@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "titleEn": "The Book of Miscellany",
+    "titleAr": "كتاب المقدمات",
+    "titleAm": "የተለያዩ ምክሮች",
+    "source": "the_book_of_miscellany.json"
+  },
+  {
+    "id": 2,
+    "titleEn": "The Book of Good Manners",
+    "titleAr": "كتاب الأدب",
+    "titleAm": "የሥነ ምግባር መጽሐፍ",
+    "source": "001_the_book_of_good_manners.json"
+  },
+  {
+    "id": 3,
+    "titleEn": "The Book About the Etiquette of Eating",
+    "titleAr": "كتاب أدب الطعام",
+    "titleAm": "የምግብ ሥነ ምግባር",
+    "source": "002_the_book_about_the_etiquette_of_eating.json"
+  },
+  {
+    "id": 4,
+    "titleEn": "The Book of Dress",
+    "titleAr": "كتاب اللباس",
+    "titleAm": "የአልባሳት መጽሐፍ",
+    "source": "003_the_book_of_dress.json"
+  },
+  {
+    "id": 5,
+    "titleEn": "The Book of the Etiquette of Sleeping, Lying and Sitting",
+    "titleAr": "كتاب آداب النوم",
+    "titleAm": "የመኝታና የመቀመጥ ሥነ ምግባር",
+    "source": "004_the_book_of_the_etiquette_of_sleeping_lying_and_sitting_etc.json"
+  },
+  {
+    "id": 6,
+    "titleEn": "The Book of Greetings",
+    "titleAr": "كتاب السلام",
+    "titleAm": "የሰላምታ መጽሐፍ",
+    "source": "005_the_book_of_greetings.json"
+  },
+  {
+    "id": 7,
+    "titleEn": "The Book of Visiting the Sick",
+    "titleAr": "كتاب عيادة المريض وتشييع الميت والصلاة عليه وحضور دفنه",
+    "titleAm": "የሕሙማን መጠየቅ",
+    "source": "006_the_book_of_visiting_the_sick.json"
+  },
+  {
+    "id": 8,
+    "titleEn": "The Book of Etiquette of Traveling",
+    "titleAr": "كتاب آداب السفر",
+    "titleAm": "የጉዞ ሥነ ምግባር",
+    "source": "007_the_book_of_etiquette_of_traveling.json"
+  },
+  {
+    "id": 9,
+    "titleEn": "The Book of Virtues",
+    "titleAr": "كتاب الفضائل",
+    "titleAm": "የበጎ ሥራዎች ትሩፋት",
+    "source": "008_the_book_of_virtues.json"
+  },
+  {
+    "id": 10,
+    "titleEn": "The Book of I'tikaf",
+    "titleAr": "كتاب الاعتكاف",
+    "titleAm": "የኢዕቲካፍ መጽሐፍ",
+    "source": "009_the_book_of_itikaf.json"
+  },
+  {
+    "id": 11,
+    "titleEn": "The Book of Hajj",
+    "titleAr": "كتاب الحج",
+    "titleAm": "የሐጅ መጽሐፍ",
+    "source": "010_the_book_of_hajj.json"
+  },
+  {
+    "id": 12,
+    "titleEn": "The Book of Jihad",
+    "titleAr": "كتاب الجهاد",
+    "titleAm": "የጂሃድ መጽሐፍ",
+    "source": "011_the_book_of_jihad.json"
+  },
+  {
+    "id": 13,
+    "titleEn": "The Book of Knowledge",
+    "titleAr": "كتاب العلم",
+    "titleAm": "የእውቀት መጽሐፍ",
+    "source": "012_the_book_of_knowledge.json"
+  },
+  {
+    "id": 14,
+    "titleEn": "The Book of Praise and Gratitude to Allah",
+    "titleAr": "كتاب حمد الله تعالى وشكره",
+    "titleAm": "የአላህ ምስጋናና አመስጋኝነት",
+    "source": "013_the_book_of_praise_and_gratitude_to_allah.json"
+  },
+  {
+    "id": 15,
+    "titleEn": "The Book of Supplicating Allah to Exalt the Mention of His Messenger",
+    "titleAr": "كتاب الصلاة على رسول الله صلى الله عليه وسلم",
+    "titleAm": "በነቢዩ ላይ ሶላት ማስተላለፍ",
+    "source": "014_the_book_of_supplicating_allah_to_exalt_the_mention_of_allahs_messenger.json"
+  },
+  {
+    "id": 16,
+    "titleEn": "The Book of the Remembrance of Allah",
+    "titleAr": "كتاب الأذكار",
+    "titleAm": "የዚክር መጽሐፍ",
+    "source": "015_the_book_of_the_remembrance_of_allah.json"
+  },
+  {
+    "id": 17,
+    "titleEn": "The Book of Du'a (Supplications)",
+    "titleAr": "كتاب الدعوات",
+    "titleAm": "የዱዓ መጽሐፍ",
+    "source": "016_the_book_of_dua_supplications.json"
+  },
+  {
+    "id": 18,
+    "titleEn": "The Book of the Prohibited Actions",
+    "titleAr": "كتاب الأمور المنهي عنها",
+    "titleAm": "ከተከለከሉ ነገሮች መጽሐፍ",
+    "source": "017_the_book_of_the_prohibited_actions.json"
+  },
+  {
+    "id": 19,
+    "titleEn": "The Book of Miscellaneous Ahadith of Significant Values",
+    "titleAr": "كتاب المنثورات والملح",
+    "titleAm": "የተለያዩ ውድ ሐዲሶች",
+    "source": "018_the_book_of_miscellaneous_ahadith_of_significant_values.json"
+  },
+  {
+    "id": 20,
+    "titleEn": "The Book of Forgiveness",
+    "titleAr": "كتاب الاستغفار",
+    "titleAm": "የይቅርታ መጽሐፍ",
+    "source": "019_the_book_of_forgiveness.json"
+  }
+]

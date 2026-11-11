@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Riyad as-Salihin</string>
+    <string name="app_name_amharic">ሪያዱ ሳሊሂን</string>
+    <string name="app_tagline">The Garden of the Righteous · Amharic translation</string>
+    <string name="tab_books">Books</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_bookmarks">Bookmarks</string>
+    <string name="tab_settings">Settings</string>
+
+    <string name="search_hint">Search Arabic, Amharic or English…</string>
+    <string name="search_empty_prompt">Type at least two letters to search all 1,896 hadiths.</string>
+    <string name="search_no_results">No hadith matched “%1$s”.</string>
+    <string name="search_results">%1$d result(s)</string>
+    <string name="searching">Searching…</string>
+
+    <string name="translation_progress_title">Amharic translation</string>
+    <string name="translation_progress">%1$d of %2$d hadiths translated</string>
+    <string name="translation_in_progress">Translation in progress</string>
+    <string name="translation_pending">Amharic translation coming soon</string>
+    <string name="translation_pending_hint">Arabic and English are available for this hadith.</string>
+    <string name="translation_notice">The Amharic text is a community draft. Please verify it against a trusted Arabic source or a scholar.</string>
+
+    <string name="continue_reading">Continue reading</string>
+    <string name="continue_reading_detail">%1$s · hadith %2$d</string>
+    <string name="hadith_number">Hadith %1$d</string>
+    <string name="hadiths_count">%1$d hadiths</string>
+    <string name="translated_count">%1$d in Amharic</string>
+    <string name="book_number">Book %1$d</string>
+    <string name="books_count">%1$d books</string>
+    <string name="read_book">Open book</string>
+
+    <string name="show_english">Show English translation</string>
+    <string name="arabic_text_size">Arabic text size</string>
+    <string name="amharic_text_size">Amharic text size</string>
+    <string name="appearance">Appearance</string>
+    <string name="theme">Theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="app_language">App language</string>
+    <string name="language_system">System default</string>
+    <string name="language_english">English</string>
+    <string name="language_amharic">አማርኛ</string>
+    <string name="language_restart_hint">Changing the language restarts the app.</string>
+    <string name="reading">Reading</string>
+    <string name="content">Content</string>
+    <string name="about">About this app</string>
+    <string name="version">Version %1$s</string>
+    <string name="sources">Sources &amp; credits</string>
+    <string name="sources_body">Arabic and English hadith text: sunnah.com (Riyad as-Salihin, Darussalam numbering), distributed through the open “HadithsJSONFormat” dataset. Amharic translation: prepared for this app. Hadith text is a sacred text — always confirm with qualified scholars.</string>
+    <string name="disclaimer_title">Please note</string>
+    <string name="disclaimer_body">The Amharic translation is a work in progress and is not a substitute for the original Arabic. Report corrections through the project repository so the community can review them.</string>
+    <string name="contribute_title">Help complete the translation</string>
+    <string name="contribute_body">Translations live in content/am/hadiths.json in the project. Every entry is keyed by the hadith number, so new translations can be added and validated without touching the app code.</string>
+
+    <string name="bookmark_add">Bookmark hadith</string>
+    <string name="bookmark_remove">Remove bookmark</string>
+    <string name="bookmarks_empty_title">No bookmarks yet</string>
+    <string name="bookmarks_empty_body">Tap the bookmark icon on any hadith to keep it here.</string>
+    <string name="copy">Copy</string>
+    <string name="share">Share</string>
+    <string name="copied">Hadith copied</string>
+    <string name="back">Back</string>
+    <string name="retry">Try again</string>
+    <string name="loading">Loading…</string>
+    <string name="error_loading">The content could not be loaded.</string>
+    <string name="hadith_of_book">%1$s · hadith %2$d</string>
+</resources>
