@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "totalHadiths": 1896,
+  "translatedHadiths": 47,
+  "books": [
+    {
+      "id": 1,
+      "titleAr": "كتاب المقدمات",
+      "titleEn": "The Book of Miscellany",
+      "titleAm": "የተለያዩ ምክሮች",
+      "hadithCount": 679,
+      "translatedCount": 43
+    },
+    {
+      "id": 2,
+      "titleAr": "كتاب الأدب",
+      "titleEn": "The Book of Good Manners",
+      "titleAm": "የሥነ ምግባር መጽሐፍ",
+      "hadithCount": 47,
+      "translatedCount": 1
+    },
+    {
+      "id": 3,
+      "titleAr": "كتاب أدب الطعام",
+      "titleEn": "The Book About the Etiquette of Eating",
+      "titleAm": "የምግብ ሥነ ምግባር",
+      "hadithCount": 51,
+      "translatedCount": 0
+    },
+    {
+      "id": 4,
+      "titleAr": "كتاب اللباس",
+      "titleEn": "The Book of Dress",
+      "titleAm": "የአልባሳት መጽሐፍ",
+      "hadithCount": 35,
+      "translatedCount": 0
+    },
+    {
+      "id": 5,
+      "titleAr": "كتاب آداب النوم",
+      "titleEn": "The Book of the Etiquette of Sleeping, Lying and Sitting",
+      "titleAm": "የመኝታና የመቀመጥ ሥነ ምግባር",
+      "hadithCount": 31,
+      "translatedCount": 0
+    },
+    {
+      "id": 6,
+      "titleAr": "كتاب السلام",
+      "titleEn": "The Book of Greetings",
+      "titleAm": "የሰላምታ መጽሐፍ",
+      "hadithCount": 50,
+      "translatedCount": 0
+    },
+    {
+      "id": 7,
+      "titleAr": "كتاب عيادة المريض وتشييع الميت والصلاة عليه وحضور دفنه",
+      "titleEn": "The Book of Visiting the Sick",
+      "titleAm": "የሕሙማን መጠየቅ",
+      "hadithCount": 62,
+      "translatedCount": 0
+    },
+    {
+      "id": 8,
+      "titleAr": "كتاب آداب السفر",
+      "titleEn": "The Book of Etiquette of Traveling",
+      "titleAm": "የጉዞ ሥነ ምግባር",
+      "hadithCount": 35,
+      "translatedCount": 0
+    },
+    {
+      "id": 9,
+      "titleAr": "كتاب الفضائل",
+      "titleEn": "The Book of Virtues",
+      "titleAm": "የበጎ ሥራዎች ትሩፋት",
+      "hadithCount": 277,
+      "translatedCount": 0
+    },
+    {
+      "id": 10,
+      "titleAr": "كتاب الاعتكاف",
+      "titleEn": "The Book of I'tikaf",
+      "titleAm": "የኢዕቲካፍ መጽሐፍ",
+      "hadithCount": 3,
+      "translatedCount": 0
+    },
+    {
+      "id": 11,
+      "titleAr": "كتاب الحج",
+      "titleEn": "The Book of Hajj",
+      "titleAm": "የሐጅ መጽሐፍ",
+      "hadithCount": 14,
+      "translatedCount": 0
+    },
+    {
+      "id": 12,
+      "titleAr": "كتاب الجهاد",
+      "titleEn": "The Book of Jihad",
+      "titleAm": "የጂሃድ መጽሐፍ",
+      "hadithCount": 91,
+      "translatedCount": 0
+    },
+    {
+      "id": 13,
+      "titleAr": "كتاب العلم",
+      "titleEn": "The Book of Knowledge",
+      "titleAm": "የእውቀት መጽሐፍ",
+      "hadithCount": 17,
+      "translatedCount": 0
+    },
+    {
+      "id": 14,
+      "titleAr": "كتاب حمد الله تعالى وشكره",
+      "titleEn": "The Book of Praise and Gratitude to Allah",
+      "titleAm": "የአላህ ምስጋናና አመስጋኝነት",
+      "hadithCount": 4,
+      "translatedCount": 0
+    },
+    {
+      "id": 15,
+      "titleAr": "كتاب الصلاة على رسول الله صلى الله عليه وسلم",
+      "titleEn": "The Book of Supplicating Allah to Exalt the Mention of His Messenger",
+      "titleAm": "በነቢዩ ላይ ሶላት ማስተላለፍ",
+      "hadithCount": 11,
+      "translatedCount": 0
+    },
+    {
+      "id": 16,
+      "titleAr": "كتاب الأذكار",
+      "titleEn": "The Book of the Remembrance of Allah",
+      "titleAm": "የዚክር መጽሐፍ",
+      "hadithCount": 57,
+      "translatedCount": 1
+    },
+    {
+      "id": 17,
+      "titleAr": "كتاب الدعوات",
+      "titleEn": "The Book of Du'a (Supplications)",
+      "titleAm": "የዱዓ መጽሐፍ",
+      "hadithCount": 46,
+      "translatedCount": 0
+    },
+    {
+      "id": 18,
+      "titleAr": "كتاب الأمور المنهي عنها",
+      "titleEn": "The Book of the Prohibited Actions",
+      "titleAm": "ከተከለከሉ ነገሮች መጽሐፍ",
+      "hadithCount": 297,
+      "translatedCount": 2
+    },
+    {
+      "id": 19,
+      "titleAr": "كتاب المنثورات والملح",
+      "titleEn": "The Book of Miscellaneous Ahadith of Significant Values",
+      "titleAm": "የተለያዩ ውድ ሐዲሶች",
+      "hadithCount": 61,
+      "translatedCount": 0
+    },
+    {
+      "id": 20,
+      "titleAr": "كتاب الاستغفار",
+      "titleEn": "The Book of Forgiveness",
+      "titleAm": "የይቅርታ መጽሐፍ",
+      "hadithCount": 28,
+      "translatedCount": 0
+    }
+  ]
+}
