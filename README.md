@@ -15,10 +15,11 @@ ship inside the APK.
 
 - **All 20 books, 1,896 hadiths**, numbered 1–1896 exactly as in the Darussalam /
   sunnah.com edition.
-- **Amharic translation layer** — currently the opening twenty hadiths plus a
-  curated set of well-known hadiths from every book (47 hadiths). The app shows
-  live translation progress and marks hadiths that are not translated yet, so
-  nothing is silently missing.
+- **Amharic translation layer** — the opening twenty hadiths (intention,
+  repentance, patience, truthfulness) plus 65 curated hadiths from the dhikr,
+  du'a, knowledge, manners and forgiveness books (85 hadiths so far). The app
+  shows live translation progress and marks hadiths that are not translated yet,
+  so nothing is silently missing.
 - **Read** with Arabic (RTL, diacritics preserved), Amharic below it, and an
   optional English translation.
 - **Search** across Arabic, Amharic and English. Arabic search ignores
@@ -89,6 +90,17 @@ python3 tools/build_content.py --refresh  # re-download the source data
 
 It fails loudly on gaps or duplicates in the numbering, empty Arabic text,
 unknown translation keys, or Amharic values that do not look like Amharic.
+
+## Translation status
+
+| | |
+|---|---|
+| Books | 20 |
+| Hadiths (Arabic + English) | 1,896 |
+| Hadiths with Amharic | 85 (4.5%) |
+
+Run `python3 tools/build_content.py` after adding translations; the home screen,
+each book row and the app index are regenerated from the same source of truth.
 
 ## Help complete the Amharic translation
 

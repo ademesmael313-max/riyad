@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "totalHadiths": 1896,
-  "translatedHadiths": 47,
+  "translatedHadiths": 85,
   "books": [
     {
       "id": 1,
@@ -9,7 +9,7 @@
       "titleEn": "The Book of Miscellany",
       "titleAm": "የተለያዩ ምክሮች",
       "hadithCount": 679,
-      "translatedCount": 43
+      "translatedCount": 54
     },
     {
       "id": 2,
@@ -105,7 +105,7 @@
       "titleEn": "The Book of Knowledge",
       "titleAm": "የእውቀት መጽሐፍ",
       "hadithCount": 17,
-      "translatedCount": 0
+      "translatedCount": 5
     },
     {
       "id": 14,
@@ -113,7 +113,7 @@
       "titleEn": "The Book of Praise and Gratitude to Allah",
       "titleAm": "የአላህ ምስጋናና አመስጋኝነት",
       "hadithCount": 4,
-      "translatedCount": 0
+      "translatedCount": 1
     },
     {
       "id": 15,
@@ -121,7 +121,7 @@
       "titleEn": "The Book of Supplicating Allah to Exalt the Mention of His Messenger",
       "titleAm": "በነቢዩ ላይ ሶላት ማስተላለፍ",
       "hadithCount": 11,
-      "translatedCount": 0
+      "translatedCount": 3
     },
     {
       "id": 16,
@@ -129,7 +129,7 @@
       "titleEn": "The Book of the Remembrance of Allah",
       "titleAm": "የዚክር መጽሐፍ",
       "hadithCount": 57,
-      "translatedCount": 1
+      "translatedCount": 7
     },
     {
       "id": 17,
@@ -137,7 +137,7 @@
       "titleEn": "The Book of Du'a (Supplications)",
       "titleAm": "የዱዓ መጽሐፍ",
       "hadithCount": 46,
-      "translatedCount": 0
+      "translatedCount": 9
     },
     {
       "id": 18,
@@ -161,7 +161,7 @@
       "titleEn": "The Book of Forgiveness",
       "titleAm": "የይቅርታ መጽሐፍ",
       "hadithCount": 28,
-      "translatedCount": 0
+      "translatedCount": 3
     }
   ]
 }
