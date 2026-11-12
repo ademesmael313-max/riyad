@@ -52,53 +52,29 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -memory 3072
           script: |
-            set -x
-            (
-              set +e
-              adb wait-for-device
-              adb install -r app/build/outputs/apk/debug/app-debug.apk
-              adb logcat -c
-              adb shell am start -W -n com.riyadsalihin.amharic/.MainActivity
-              sleep 25
-              echo "== stage: home shown"
-
-              adb exec-out screencap -p > home.png
-              python3 -c "from PIL import Image; im=Image.open('home.png'); im.thumbnail((240,900)); im.convert('RGB').save('home.jpg','JPEG',quality=52,optimize=True)"
-
-              # Best effort: tap the first book row so the reader screen is exercised too.
-              timeout 120 adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
-              timeout 60 adb pull /sdcard/ui.xml ui.xml >/dev/null 2>&1
-              python3 tools/smoke_tap_target.py ui.xml > tap.txt 2> tap.err
-              echo "== stage: tap target [$(cat tap.txt)]"
-              if [ -s tap.txt ]; then
-                timeout 60 adb shell input tap $(cat tap.txt)
-                sleep 15
-              fi
-
-              echo "== stage: reader shown"
-              adb exec-out screencap -p > reader.png
-              python3 -c "from PIL import Image; im=Image.open('reader.png'); im.thumbnail((240,900)); im.convert('RGB').save('reader.jpg','JPEG',quality=52,optimize=True)"
-
-              echo "== stage: verdict"
-              adb logcat -d -b crash > crash.txt
-              adb logcat -d > full.txt
-              PID=$(adb shell pidof com.riyadsalihin.amharic | tr -d '\r')
-              echo "app pid: [$PID]"
-              RESULT=$(python3 -c "t=open('crash.txt',errors='ignore').read(); print('APPCRASH' if any('Process: com.riyadsalihin.amharic' in b and 'DeadSystemException' not in b for b in t.split('FATAL EXCEPTION')[1:]) else ('SYSTEMDIED' if 'DeadSystemException' in t else 'OK'))")
-              echo "app status: $RESULT"
-              if [ "$RESULT" = "APPCRASH" ]; then
-                echo "::error title=Launch::the app crashed during the smoke journey"
-                exit 1
-              fi
-              if [ -z "$PID" ] && [ "$RESULT" != "SYSTEMDIED" ]; then
-                echo "::error title=Launch::app process is not running after launch"
-                exit 1
-              fi
-              echo "launch OK"
-            ) > journey.txt 2>&1
-            STATUS=$?
-            tail -40 journey.txt
-            exit $STATUS
+            adb wait-for-device
+            adb install -r app/build/outputs/apk/debug/app-debug.apk || echo "::error title=Install::adb install failed"
+            adb logcat -c
+            adb shell am start -W -n com.riyadsalihin.amharic/.MainActivity || echo "::error title=Launch::am start failed"
+            sleep 25
+            adb exec-out screencap -p > home.png
+            python3 tools/make_thumbnail.py home.png home.jpg || true
+            echo "::notice title=Journey::home screen captured"
+            timeout 120 adb shell uiautomator dump /sdcard/ui.xml || true
+            timeout 60 adb pull /sdcard/ui.xml ui.xml || true
+            python3 tools/smoke_tap_target.py ui.xml > tap.txt || true
+            echo "::notice title=Journey::book tap target [$(cat tap.txt)]"
+            test -s tap.txt && adb shell input tap $(cat tap.txt) || echo "no tap target found, staying on the home screen"
+            sleep 15
+            adb exec-out screencap -p > reader.png
+            python3 tools/make_thumbnail.py reader.png reader.jpg || true
+            adb logcat -d -b crash > crash.txt
+            adb logcat -d > full.txt
+            adb shell pidof com.riyadsalihin.amharic > pid.txt || true
+            python3 tools/smoke_verdict.py crash.txt pid.txt verdict.txt
+            grep -q APPCRASH verdict.txt && { echo "::error title=Launch::the app crashed during the smoke journey"; exit 1; } || true
+            grep -q NOPROC verdict.txt && { echo "::error title=Launch::the app process is gone without a crash trace"; exit 1; } || true
+            echo "::notice title=Launch::smoke journey finished"
 
       - name: Publish crash details
         if: always()
@@ -108,18 +84,6 @@ jobs:
             echo "::error title=Crash buffer::$MSG"
           else
             echo "::notice title=Crash buffer::empty - no startup crash"
-          fi
-
-      - name: Publish smoke trace
-        if: always()
-        run: |
-          if [ -s journey.txt ]; then
-            tail -c 14000 journey.txt | base64 -w0 > trace.b64
-            B64=$(cat trace.b64); i=0; part=0
-            while [ $i -lt ${#B64} ]; do
-              echo "::warning title=Trace part $part::${B64:$i:3800}"
-              i=$((i+3800)); part=$((part+1))
-            done
           fi
 
       - name: Publish home screenshot
