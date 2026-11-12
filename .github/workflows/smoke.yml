@@ -62,21 +62,10 @@ jobs:
             adb exec-out screencap -p > home.png
             python3 -c "from PIL import Image; im=Image.open('home.png'); im.thumbnail((240,900)); im.convert('RGB').save('home.jpg','JPEG',quality=52,optimize=True)"
 
-            # Best effort: tap the first book row using its Amharic title bounds.
+            # Best effort: tap the first book row so the reader screen is exercised too.
             adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
             adb pull /sdcard/ui.xml ui.xml >/dev/null 2>&1
-            python3 - <<'PY' > tap.txt
-import json, re
-title = json.load(open('app/src/main/assets/content/index.json', encoding='utf-8'))['books'][0]['titleAm']
-try:
-    xml = open('ui.xml', encoding='utf-8', errors='ignore').read()
-except OSError:
-    xml = ''
-for m in re.finditer(r'text="([^"]*)"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', xml):
-    if m.group(1).strip() == title:
-        print((int(m.group(2)) + int(m.group(4))) // 2, (int(m.group(3)) + int(m.group(5))) // 2)
-        break
-PY
+            python3 tools/smoke_tap_target.py ui.xml > tap.txt
             echo "book tap target: $(cat tap.txt)"
             if [ -s tap.txt ]; then
               adb shell input tap $(cat tap.txt)
