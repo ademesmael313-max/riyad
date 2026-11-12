@@ -3,7 +3,7 @@ name: Launch smoke test
 on:
   workflow_dispatch:
   push:
-    branches: ["arena/**"]
+    branches: ["main", "arena/**"]
 
 permissions:
   contents: read
@@ -33,6 +33,9 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --console=plain
 
+      - name: Install image helper
+        run: pip install --quiet pillow
+
       - name: Enable KVM for the emulator
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -40,7 +43,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           ls -l /dev/kvm || true
 
-      - name: Launch app on emulator and capture logcat
+      - name: Launch app on emulator and capture screenshot
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
@@ -52,42 +55,36 @@ jobs:
           script: |
             set +e
             adb wait-for-device
-            adb shell settings put global window_animation_scale 0
             adb install -r app/build/outputs/apk/debug/app-debug.apk
-            echo "installed=$?"
             adb logcat -c
             adb shell am start -W -n com.riyadsalihin.amharic/.MainActivity
-            echo "start=$?"
-            sleep 35
-            echo "pid=$(adb shell pidof com.riyadsalihin.amharic | tr -d '\r')"
+            sleep 30
+            adb exec-out screencap -p > shot.png
+            python3 -c "from PIL import Image; im=Image.open('shot.png'); im.thumbnail((420,1200)); im.convert('RGB').save('shot.jpg','JPEG',quality=74,optimize=True)"
             adb logcat -d -b crash > crash.txt
             adb logcat -d > full.txt
-            echo "--- crash buffer ---"
-            cat crash.txt
+            PID=$(adb shell pidof com.riyadsalihin.amharic | tr -d '\r')
+            echo "app pid: [$PID]"
+            if [ -z "$PID" ]; then
+              echo "::error title=Launch::app process is not running after launch"
+              exit 1
+            fi
+            if grep -q "FATAL EXCEPTION" crash.txt; then
+              echo "::error title=Launch::app crashed on startup"
+              exit 1
+            fi
+            echo "launch OK"
 
       - name: Publish crash details
         if: always()
         run: |
           if [ -s crash.txt ]; then
-            MSG=$(tr '\n' '~' < crash.txt | head -c 7000)
+            MSG=$(tr '\n' '~' < crash.txt | head -c 6000)
             echo "::error title=Crash buffer::$MSG"
           else
-            echo "::warning title=Crash buffer::empty - app may not have crashed on the emulator"
+            echo "::notice title=Crash buffer::empty - no startup crash"
           fi
-          if grep -q "FATAL EXCEPTION" full.txt 2>/dev/null; then
-            MSG=$(grep -A 60 "FATAL EXCEPTION" full.txt | tr '\n' '~' | head -c 7000)
-            echo "::error title=Fatal exception::$MSG"
-          else
-            echo "::notice title=Logcat::no FATAL EXCEPTION found"
+          if [ -s shot.jpg ]; then
+            B64=$(base64 -w0 shot.jpg)
+            echo "::warning title=Screenshot $(stat -c%s shot.jpg) bytes::$B64"
           fi
-          grep -iE "AndroidRuntime|ANR in com.riyadsalihin" full.txt 2>/dev/null | head -30 || true
-
-      - name: Upload logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: launch-logs
-          path: |
-            crash.txt
-            full.txt
-          if-no-files-found: ignore

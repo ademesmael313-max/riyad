@@ -54,7 +54,6 @@ import com.riyadsalihin.amharic.data.LastRead
 import com.riyadsalihin.amharic.ui.AppViewModelFactory
 import com.riyadsalihin.amharic.ui.components.ErrorState
 import com.riyadsalihin.amharic.ui.components.LoadingState
-import com.riyadsalihin.amharic.util.formatCount
 
 @Composable
 fun HomeScreen(
@@ -174,7 +173,7 @@ private fun HeroHeader(totalHadiths: Int, bookCount: Int) {
                     modifier = Modifier.padding(top = 14.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    HeroChip(stringResource(R.string.hadiths_count, formatCount(totalHadiths)))
+                    HeroChip(stringResource(R.string.hadiths_count, totalHadiths))
                     HeroChip(stringResource(R.string.books_count, bookCount))
                 }
             }
