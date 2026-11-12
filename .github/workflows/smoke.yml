@@ -1,0 +1,93 @@
+name: Launch smoke test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Prepare Android SDK
+        run: |
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --console=plain
+
+      - name: Enable KVM for the emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls -l /dev/kvm || true
+
+      - name: Launch app on emulator and capture logcat
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          script: |
+            set +e
+            adb wait-for-device
+            adb shell settings put global window_animation_scale 0
+            adb install -r app/build/outputs/apk/debug/app-debug.apk
+            echo "installed=$?"
+            adb logcat -c
+            adb shell am start -W -n com.riyadsalihin.amharic/.MainActivity
+            echo "start=$?"
+            sleep 35
+            echo "pid=$(adb shell pidof com.riyadsalihin.amharic | tr -d '\r')"
+            adb logcat -d -b crash > crash.txt
+            adb logcat -d > full.txt
+            echo "--- crash buffer ---"
+            cat crash.txt
+
+      - name: Publish crash details
+        if: always()
+        run: |
+          if [ -s crash.txt ]; then
+            MSG=$(tr '\n' '~' < crash.txt | head -c 7000)
+            echo "::error title=Crash buffer::$MSG"
+          else
+            echo "::warning title=Crash buffer::empty - app may not have crashed on the emulator"
+          fi
+          if grep -q "FATAL EXCEPTION" full.txt 2>/dev/null; then
+            MSG=$(grep -A 60 "FATAL EXCEPTION" full.txt | tr '\n' '~' | head -c 7000)
+            echo "::error title=Fatal exception::$MSG"
+          else
+            echo "::notice title=Logcat::no FATAL EXCEPTION found"
+          fi
+          grep -iE "AndroidRuntime|ANR in com.riyadsalihin" full.txt 2>/dev/null | head -30 || true
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: launch-logs
+          path: |
+            crash.txt
+            full.txt
+          if-no-files-found: ignore
