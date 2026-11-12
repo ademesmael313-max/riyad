@@ -24,8 +24,7 @@ jobs:
           java-version: "17"
 
       - name: Prepare Android SDK
-        run: |
-          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+        run: yes | sdkmanager --licenses > /dev/null 2>&1 || true
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -43,7 +42,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           ls -l /dev/kvm || true
 
-      - name: Launch app on emulator and capture screenshot
+      - name: Launch app, open a book, capture screenshots
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
@@ -58,20 +57,43 @@ jobs:
             adb install -r app/build/outputs/apk/debug/app-debug.apk
             adb logcat -c
             adb shell am start -W -n com.riyadsalihin.amharic/.MainActivity
-            sleep 30
-            adb exec-out screencap -p > shot.png
-            python3 -c "from PIL import Image; im=Image.open('shot.png'); im.thumbnail((240,900)); im.convert('RGB').save('shot.jpg','JPEG',quality=52,optimize=True)"
+            sleep 25
+
+            adb exec-out screencap -p > home.png
+            python3 -c "from PIL import Image; im=Image.open('home.png'); im.thumbnail((240,900)); im.convert('RGB').save('home.jpg','JPEG',quality=52,optimize=True)"
+
+            # Best effort: tap the first book row using its Amharic title bounds.
+            adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
+            adb pull /sdcard/ui.xml ui.xml >/dev/null 2>&1
+            python3 - <<'PY' > tap.txt
+import json, re
+title = json.load(open('app/src/main/assets/content/index.json', encoding='utf-8'))['books'][0]['titleAm']
+try:
+    xml = open('ui.xml', encoding='utf-8', errors='ignore').read()
+except OSError:
+    xml = ''
+for m in re.finditer(r'text="([^"]*)"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', xml):
+    if m.group(1).strip() == title:
+        print((int(m.group(2)) + int(m.group(4))) // 2, (int(m.group(3)) + int(m.group(5))) // 2)
+        break
+PY
+            echo "book tap target: $(cat tap.txt)"
+            if [ -s tap.txt ]; then
+              adb shell input tap $(cat tap.txt)
+              sleep 15
+            fi
+
+            adb exec-out screencap -p > reader.png
+            python3 -c "from PIL import Image; im=Image.open('reader.png'); im.thumbnail((240,900)); im.convert('RGB').save('reader.jpg','JPEG',quality=52,optimize=True)"
+
             adb logcat -d -b crash > crash.txt
             adb logcat -d > full.txt
             PID=$(adb shell pidof com.riyadsalihin.amharic | tr -d '\r')
             echo "app pid: [$PID]"
-
-            # An app crash is any FATAL EXCEPTION record for our package that is
-            # not the system itself dying (DeadSystemException).
             RESULT=$(python3 -c "t=open('crash.txt',errors='ignore').read(); print('APPCRASH' if any('Process: com.riyadsalihin.amharic' in b and 'DeadSystemException' not in b for b in t.split('FATAL EXCEPTION')[1:]) else ('SYSTEMDIED' if 'DeadSystemException' in t else 'OK'))")
             echo "app status: $RESULT"
             if [ "$RESULT" = "APPCRASH" ]; then
-              echo "::error title=Launch::the app crashed after launch"
+              echo "::error title=Launch::the app crashed during the smoke journey"
               exit 1
             fi
             if [ -z "$PID" ] && [ "$RESULT" != "SYSTEMDIED" ]; then
@@ -84,19 +106,30 @@ jobs:
         if: always()
         run: |
           if [ -s crash.txt ]; then
-            MSG=$(tr '\n' '~' < crash.txt | head -c 6000)
+            MSG=$(tr '\n' '~' < crash.txt | head -c 3800)
             echo "::error title=Crash buffer::$MSG"
           else
             echo "::notice title=Crash buffer::empty - no startup crash"
           fi
-          if [ -s shot.jpg ]; then
-            echo "::notice title=Screenshot size::$(stat -c%s shot.jpg) bytes"
-            B64=$(base64 -w0 shot.jpg)
-            i=0
-            part=0
+
+      - name: Publish home screenshot
+        if: always()
+        run: |
+          if [ -s home.jpg ]; then
+            B64=$(base64 -w0 home.jpg); i=0; part=0
             while [ $i -lt ${#B64} ]; do
-              echo "::warning title=Shot part $part::${B64:$i:3800}"
-              i=$((i+3800))
-              part=$((part+1))
+              echo "::warning title=Home part $part::${B64:$i:3800}"
+              i=$((i+3800)); part=$((part+1))
+            done
+          fi
+
+      - name: Publish reader screenshot
+        if: always()
+        run: |
+          if [ -s reader.jpg ]; then
+            B64=$(base64 -w0 reader.jpg); i=0; part=0
+            while [ $i -lt ${#B64} ]; do
+              echo "::warning title=Reader part $part::${B64:$i:3800}"
+              i=$((i+3800)); part=$((part+1))
             done
           fi
