@@ -35,6 +35,9 @@ jobs:
       - name: Validate bundled content
         run: python3 tools/check_assets.py
 
+      - name: Validate format strings
+        run: python3 tools/check_format_strings.py
+
       - name: Unit tests
         run: |
           set +e

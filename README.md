@@ -11,6 +11,14 @@ ship inside the APK.
   <img src="assets/branding/icon_preview.png" width="420" alt="App icon preview"/>
 </p>
 
+<p align="center">
+  <img src="docs/screenshot-home.jpg" width="220" alt="Home screen with the Amharic title, translation progress and the book list"/>
+  <img src="docs/screenshot-reader.jpg" width="220" alt="Reader screen showing a hadith in Arabic"/>
+</p>
+
+<p align="center"><em>Captured on an Android 11 emulator by the launch smoke test in
+<code>.github/workflows/smoke.yml</code>.</em></p>
+
 ## What is inside
 
 - **All 20 books, 1,896 hadiths**, numbered 1–1896 exactly as in the Darussalam /
@@ -47,9 +55,16 @@ From the command line:
 ./gradlew testDebugUnitTest      # JVM unit tests
 ```
 
-The GitHub Actions workflow in `.github/workflows/android.yml` builds the APK
-and runs the unit tests on every push; the resulting `app-debug.apk` is uploaded
-as the `riyad-as-salihin-debug` artifact on the Actions run page.
+The GitHub Actions workflow in `.github/workflows/android.yml` validates the
+bundled content and the UI format strings, runs the unit tests and builds the
+APK on every push; the resulting `app-debug.apk` is uploaded as the
+`riyad-as-salihin-debug` artifact on the Actions run page.
+
+A second workflow, `.github/workflows/smoke.yml`, boots a real Android 11
+emulator, installs the APK, launches the app, opens the first book and fails the
+build if the app process crashes. It is the guard against defects that only
+appear at runtime — for example a `%d` format placeholder being handed a string,
+which throws the moment the home screen renders.
 
 For a signed release build (keystore, AAB, Play Store checklist), see
 [`docs/PUBLISHING.md`](docs/PUBLISHING.md).
@@ -72,6 +87,9 @@ content/
   books.json               book metadata (Arabic / English / Amharic titles)
   am/hadiths.json          Amharic translations keyed by hadith number
 tools/build_content.py     merges sources + translations into app assets
+tools/check_assets.py      validates the generated assets
+tools/check_format_strings.py  catches stringResource/getString argument mismatches
+tools/smoke_*.py           helpers used by the emulator smoke test
 docs/PUBLISHING.md         signing, release builds and store checklist
 ```
 
