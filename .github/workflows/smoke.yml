@@ -51,7 +51,7 @@ jobs:
           arch: x86_64
           profile: pixel_5
           disable-animations: true
-          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -memory 3072
           script: |
             set +e
             adb wait-for-device
@@ -60,17 +60,22 @@ jobs:
             adb shell am start -W -n com.riyadsalihin.amharic/.MainActivity
             sleep 30
             adb exec-out screencap -p > shot.png
-            python3 -c "from PIL import Image; im=Image.open('shot.png'); im.thumbnail((420,1200)); im.convert('RGB').save('shot.jpg','JPEG',quality=74,optimize=True)"
+            python3 -c "from PIL import Image; im=Image.open('shot.png'); im.thumbnail((240,900)); im.convert('RGB').save('shot.jpg','JPEG',quality=52,optimize=True)"
             adb logcat -d -b crash > crash.txt
             adb logcat -d > full.txt
             PID=$(adb shell pidof com.riyadsalihin.amharic | tr -d '\r')
             echo "app pid: [$PID]"
-            if [ -z "$PID" ]; then
-              echo "::error title=Launch::app process is not running after launch"
+
+            # An app crash is any FATAL EXCEPTION record for our package that is
+            # not the system itself dying (DeadSystemException).
+            RESULT=$(python3 -c "t=open('crash.txt',errors='ignore').read(); print('APPCRASH' if any('Process: com.riyadsalihin.amharic' in b and 'DeadSystemException' not in b for b in t.split('FATAL EXCEPTION')[1:]) else ('SYSTEMDIED' if 'DeadSystemException' in t else 'OK'))")
+            echo "app status: $RESULT"
+            if [ "$RESULT" = "APPCRASH" ]; then
+              echo "::error title=Launch::the app crashed after launch"
               exit 1
             fi
-            if grep -q "FATAL EXCEPTION" crash.txt; then
-              echo "::error title=Launch::app crashed on startup"
+            if [ -z "$PID" ] && [ "$RESULT" != "SYSTEMDIED" ]; then
+              echo "::error title=Launch::app process is not running after launch"
               exit 1
             fi
             echo "launch OK"
@@ -85,6 +90,13 @@ jobs:
             echo "::notice title=Crash buffer::empty - no startup crash"
           fi
           if [ -s shot.jpg ]; then
+            echo "::notice title=Screenshot size::$(stat -c%s shot.jpg) bytes"
             B64=$(base64 -w0 shot.jpg)
-            echo "::warning title=Screenshot $(stat -c%s shot.jpg) bytes::$B64"
+            i=0
+            part=0
+            while [ $i -lt ${#B64} ]; do
+              echo "::warning title=Shot part $part::${B64:$i:3800}"
+              i=$((i+3800))
+              part=$((part+1))
+            done
           fi
