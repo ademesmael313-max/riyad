@@ -1,0 +1,109 @@
+name: Launch smoke test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main", "arena/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Prepare Android SDK
+        run: yes | sdkmanager --licenses > /dev/null 2>&1 || true
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --console=plain
+
+      - name: Install image helper
+        run: pip install --quiet pillow
+
+      - name: Enable KVM for the emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls -l /dev/kvm || true
+
+      - name: Launch app, open a book, capture screenshots
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -memory 3072
+          script: |
+            adb wait-for-device
+            adb install -r app/build/outputs/apk/debug/app-debug.apk || echo "::error title=Install::adb install failed"
+            adb logcat -c
+            adb shell am start -W -n com.riyadsalihin.amharic/.MainActivity || echo "::error title=Launch::am start failed"
+            sleep 25
+            adb exec-out screencap -p > home.png
+            python3 tools/make_thumbnail.py home.png home.jpg || true
+            echo "::notice title=Journey::home screen captured"
+            timeout 120 adb shell uiautomator dump /sdcard/ui.xml || true
+            timeout 60 adb pull /sdcard/ui.xml ui.xml || true
+            python3 tools/smoke_tap_target.py ui.xml > tap.txt || true
+            echo "::notice title=Journey::book tap target [$(cat tap.txt)]"
+            test -s tap.txt && adb shell input tap $(cat tap.txt) || echo "no tap target found, staying on the home screen"
+            sleep 15
+            adb exec-out screencap -p > reader.png
+            python3 tools/make_thumbnail.py reader.png reader.jpg || true
+            adb logcat -d -b crash > crash.txt
+            adb logcat -d > full.txt
+            adb shell pidof com.riyadsalihin.amharic > pid.txt || true
+            python3 tools/smoke_verdict.py crash.txt pid.txt verdict.txt
+            grep -q APPCRASH verdict.txt && { echo "::error title=Launch::the app crashed during the smoke journey"; exit 1; } || true
+            grep -q NOPROC verdict.txt && { echo "::error title=Launch::the app process is gone without a crash trace"; exit 1; } || true
+            echo "::notice title=Launch::smoke journey finished"
+
+      - name: Publish crash details
+        if: always()
+        run: |
+          if [ -s crash.txt ]; then
+            MSG=$(tr '\n' '~' < crash.txt | head -c 3800)
+            echo "::error title=Crash buffer::$MSG"
+          else
+            echo "::notice title=Crash buffer::empty - no startup crash"
+          fi
+
+      - name: Publish home screenshot
+        if: always()
+        run: |
+          if [ -s home.jpg ]; then
+            B64=$(base64 -w0 home.jpg); i=0; part=0
+            while [ $i -lt ${#B64} ]; do
+              echo "::warning title=Home part $part::${B64:$i:3800}"
+              i=$((i+3800)); part=$((part+1))
+            done
+          fi
+
+      - name: Publish reader screenshot
+        if: always()
+        run: |
+          if [ -s reader.jpg ]; then
+            B64=$(base64 -w0 reader.jpg); i=0; part=0
+            while [ $i -lt ${#B64} ]; do
+              echo "::warning title=Reader part $part::${B64:$i:3800}"
+              i=$((i+3800)); part=$((part+1))
+            done
+          fi
